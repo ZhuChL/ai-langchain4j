@@ -1,16 +1,13 @@
 package com.zhuchl.ailangchain4j.LLMTest;
 
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.ollama.OllamaChatModel;
+import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * @desc
- * 
  * @date 2025/4/24 22:21
  */
 @SpringBootTest
@@ -29,29 +26,43 @@ public class GptTest {
         System.out.println(res);
     }
 
-    @Autowired
-    OpenAiChatModel openAiChatModel;
-
-    @Test
-    public void testSpringDemo() {
-
-        String res = openAiChatModel.chat("你好，你是谁？");
-
-        System.out.println(res);
-
-    }
+//    @Autowired
+//    OpenAiChatModel openAiChatModel;
+//
+//    @Test
+//    public void testSpringDemo() {
+//
+//        String res = openAiChatModel.chat("你好，你是谁？");
+//
+//        System.out.println(res);
+//
+//    }
 
 
     /**
      * ollama接入
      */
+//    @Autowired
+//    private OllamaChatModel ollamaChatModel;
+//
+//    @Test
+//    public void testOllama() {
+//
+//        String answer = ollamaChatModel.chat("你好");
+//        System.out.println(answer);
+//    }
+
+    /**
+     * 通义千问大模型
+     */
     @Autowired
-    private OllamaChatModel ollamaChatModel;
+    private QwenChatModel qwenChatModel;
 
     @Test
-    public void testOllama() {
-
-        String answer = ollamaChatModel.chat("你好");
+    public void testDashScopeQwen() {
+        //向模型提问
+        String answer = qwenChatModel.chat("你好");
+    //输出结果
         System.out.println(answer);
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @AiService(
         wiringMode = AiServiceWiringMode.EXPLICIT,
-        chatModel = "ollamaChatModel",
+        chatModel = "qwenChatModel",
         chatMemoryProvider = "chatMemoryProviderXiaozhi"
 )
 public interface XiaozhiAgent {

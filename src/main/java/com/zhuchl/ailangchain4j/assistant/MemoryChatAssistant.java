@@ -12,7 +12,7 @@ import dev.langchain4j.service.spring.AiServiceWiringMode;
  */
 
 @AiService(wiringMode = AiServiceWiringMode.EXPLICIT,
-        chatModel = "ollamaChatModel",
+        chatModel = "qwenChatModel",
         chatMemory = "chatMemory")
 public interface MemoryChatAssistant {
 
