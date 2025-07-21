@@ -1,5 +1,5 @@
 # 第一阶段：构建应用
-FROM eclipse-temurin:17-jdk-alpine AS build
+FROM amazoncorretto:17-alpine3.17 AS build
 WORKDIR /app
 
 # 缓存依赖
