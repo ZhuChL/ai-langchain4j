@@ -1,5 +1,9 @@
 # 第一阶段：构建应用
 FROM amazoncorretto:17-alpine3.17 AS build
+
+# 安装 Maven
+RUN apk add --no-cache maven
+
 WORKDIR /app
 
 # 缓存依赖
