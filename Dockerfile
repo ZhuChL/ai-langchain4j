@@ -19,7 +19,7 @@ FROM gcr.io/distroless/java17-debian11 AS runtime
 WORKDIR /app
 
 # 从构建阶段复制应用
-COPY --from=build /app/target/ai-langchain4j*.jar /app/ai-langchain4j.jar
+COPY --from=build /app/target/my-app.jar /app/app.jar
 
 # 设置环境变量
 ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxMetaspaceSize=128m -XX:+HeapDumpOnOutOfMemoryError -Djava.security.egd=file:/dev/./urandom"
@@ -36,4 +36,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 USER nonroot:nonroot
 
 # 启动应用
-CMD ["java", $JAVA_OPTS, "-jar", "ai-langchain4j.jar"]
+CMD ["java", $JAVA_OPTS, "-jar", "app.jar"]
