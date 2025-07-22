@@ -38,4 +38,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 USER nonroot:nonroot
 
 # 启动应用
-CMD ["java", $JAVA_OPTS, "-jar", "ai-langchain4j.jar"]
+CMD ["java", $JAVA_OPTS, "-jar", "/app/ai-langchain4j.jar"]
