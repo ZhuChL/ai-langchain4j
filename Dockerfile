@@ -20,6 +20,7 @@ WORKDIR /app
 
 # 从构建阶段复制应用
 COPY --from=build /app/target/ai-langchain4j*.jar ai-langchain4j.jar
+RUN ls -l /app/ai-langchain4j.jar |l echo"文件不存在"
 RUN chmod +r /app/ai-langchain4j.jar
 
 # 设置环境变量
