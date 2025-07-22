@@ -51,14 +51,13 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            tianyaqpzm/ai-langchain4j
-            ghcr.io/${{ github.repository_owner }}/ai-langchain4j  # 可选
+            tianyaqpzm/aichat
+            ghcr.io/${{ github.repository_owner }}/aichat  # 可选
           tags: |
             type=ref,event=branch
             type=sha,format=short
 
       - name: Build and push Docker image
-        id: docker_build  # 添加 ID
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -69,4 +68,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        run: echo ${{ steps.meta.outputs.digest }}
