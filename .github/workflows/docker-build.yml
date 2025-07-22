@@ -1,12 +1,12 @@
-name: Build and Push Docker Image
+name: Build APP DockerImage
 
 on:
   push:
     branches:
-      - main  # 主分支提交时触发
+      - master  # 主分支提交时触发
   pull_request:
     branches:
-      - main  # 向主分支发起PR时触发
+      - master  # 向主分支发起PR时触发
 
 jobs:
   build:
@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3  # 必须添加，用于模拟多架构
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -51,13 +54,14 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            your-dockerhub-username/your-image-name
-            ghcr.io/${{ github.repository_owner }}/your-image-name  # 可选
+            tianyaqpzm/ai-langchain4j
+            ghcr.io/${{ github.repository_owner }}/ai-langchain4j  # 可选
           tags: |
             type=ref,event=branch
             type=sha,format=short
 
       - name: Build and push Docker image
+        id: docker_build  # 添加 ID
         uses: docker/build-push-action@v5
         with:
           context: .

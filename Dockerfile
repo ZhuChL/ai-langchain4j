@@ -1,5 +1,9 @@
 # 第一阶段：构建应用
-FROM eclipse-temurin:17-jdk-alpine AS build
+FROM amazoncorretto:17-alpine3.17 AS build
+
+# 安装 Maven
+RUN apk add --no-cache maven
+
 WORKDIR /app
 
 # 缓存依赖
@@ -15,7 +19,7 @@ FROM gcr.io/distroless/java17-debian11 AS runtime
 WORKDIR /app
 
 # 从构建阶段复制应用
-COPY --from=build /app/target/my-app.jar /app/app.jar
+COPY --from=build /app/target/ai-langchain4j*.jar /app/ai-langchain4j.jar
 
 # 设置环境变量
 ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxMetaspaceSize=128m -XX:+HeapDumpOnOutOfMemoryError -Djava.security.egd=file:/dev/./urandom"
@@ -32,4 +36,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 USER nonroot:nonroot
 
 # 启动应用
-CMD ["java", $JAVA_OPTS, "-jar", "app.jar"]
+CMD ["java", $JAVA_OPTS, "-jar", "ai-langchain4j.jar"]
