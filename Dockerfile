@@ -10,7 +10,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
-# 复制源代码并构建
+# 复制源代码并构建 相当于把代码目录src下文件拷贝到 /app/src下
 COPY src ./src
 RUN mvn clean package -DskipTests
 
@@ -20,8 +20,6 @@ WORKDIR /app
 
 # 从构建阶段复制应用
 COPY --from=build /app/target/ai-langchain4j*.jar ai-langchain4j.jar
-RUN ls -l /app/ai-langchain4j.jar |l echo"文件不存在"
-RUN chmod +r /app/ai-langchain4j.jar
 
 # 设置环境变量
 ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxMetaspaceSize=128m -XX:+HeapDumpOnOutOfMemoryError -Djava.security.egd=file:/dev/./urandom"
