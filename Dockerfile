@@ -20,6 +20,7 @@ WORKDIR /app
 
 # 从构建阶段复制应用
 COPY --from=build /app/target/ai-langchain4j*.jar ai-langchain4j.jar
+RUN chmod +r /app/ai-langchain4j.jar
 
 # 设置环境变量
 ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxMetaspaceSize=128m -XX:+HeapDumpOnOutOfMemoryError -Djava.security.egd=file:/dev/./urandom"
