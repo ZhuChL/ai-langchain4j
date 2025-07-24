@@ -12,6 +12,8 @@ RUN mvn dependency:go-offline -B
 
 # 复制源代码并构建 相当于把代码目录src下文件拷贝到 /app/src下
 COPY src ./src
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
 RUN mvn clean package -DskipTests
 
 # 第二阶段：运行应用
@@ -32,8 +34,13 @@ EXPOSE $APP_PORT
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD [ "curl", "-f", "http://localhost:${APP_PORT}/actuator/health" ] || exit 1
 
+
+# 赋予执行权限
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # 非root用户运行
 USER nonroot:nonroot
 
 # 启动应用
-CMD java $JAVA_OPTS -jar ai-langchain4j.jar
+ENTRYPOINT ["/usr/local/entrypoint.sh"]
+CMD ["java", $JAVA_OPTS, "-jar", "/app/ai-langchain4j.jar"]
