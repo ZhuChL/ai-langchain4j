@@ -12,18 +12,6 @@ RUN mvn dependency:go-offline -B
 
 # 复制源代码并构建 相当于把代码目录src下文件拷贝到 /app/src下
 COPY src ./src
-# 或者使用条件判断的方式
-RUN if [ ! -d "/usr/local/bin" ]; then \
-        mkdir /usr/local/bin; \
-        echo "已创建/external目录"; \
-    else \
-        echo "/usr/local/bin目录已存在"; \
-    fi
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-# 检查关键文件是否存在
-RUN if [ ! -f "/usr/local/bin/entrypoint.sh" ]; then \
-        echo "错误: requirements.txt 文件不存在!"; \
-    fi
 RUN mvn clean package -DskipTests
 
 # 第二阶段：运行应用
@@ -45,6 +33,19 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD [ "curl", "-f", "http://localhost:${APP_PORT}/actuator/health" ] || exit 1
 
 
+# 或者使用条件判断的方式
+RUN if [ ! -d "/usr/local/bin" ]; then \
+        mkdir /usr/local/bin; \
+        echo "已创建/external目录"; \
+    else \
+        echo "/usr/local/bin目录已存在"; \
+    fi
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN ls -la /usr/local/bin/       # 显示目录内容
+# 检查关键文件是否存在
+RUN if [ ! -f "/usr/local/bin/entrypoint.sh" ]; then \
+        echo "错误: /usr/local/bin/entrypoint.sh 文件不存在!"; \
+    fi
 # 赋予执行权限
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
