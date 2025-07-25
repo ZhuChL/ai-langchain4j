@@ -12,8 +12,18 @@ RUN mvn dependency:go-offline -B
 
 # 复制源代码并构建 相当于把代码目录src下文件拷贝到 /app/src下
 COPY src ./src
+# 或者使用条件判断的方式
+RUN if [ ! -d "/usr/local/bin" ]; then \
+        mkdir /usr/local/bin; \
+        echo "已创建/external目录"; \
+    else \
+        echo "/usr/local/bin目录已存在"; \
+    fi
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-
+# 检查关键文件是否存在
+RUN if [ ! -f "/usr/local/bin/entrypoint.sh" ]; then \
+        echo "错误: requirements.txt 文件不存在!"; \
+    fi
 RUN mvn clean package -DskipTests
 
 # 第二阶段：运行应用
